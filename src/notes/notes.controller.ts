@@ -8,7 +8,7 @@ import { Public } from 'src/common/decorators/public.decorator';
 export class NotesController {
   constructor(private readonly notesService: NotesService) {}
   @Post()
-  async createNoteWithCategoriesController(@Body() body, res: Response) {
+  async createNoteWithCategoriesController(@Body() body, ) {
     try {
       const { noteData, categoryNames } = body;
 
@@ -52,7 +52,7 @@ export class NotesController {
     return this.notesService.filter(id)
   }
   @Patch()
-  async editNoteWithCategoriesController(@Body() body, res: Response) {
+  async editNoteWithCategoriesController(@Body() body) {
     try {
       const { noteData, categoryNames } = body;
       const newNoteWithCategories =
