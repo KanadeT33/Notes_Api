@@ -14,6 +14,9 @@ export class AuthService {
     @InjectRepository(Users)
     private userRepo: Repository<Users>,
   ) {}
+  async all(){
+    return await this.userRepo.find()
+  }
   async login(body): Promise<any> {
     const login = await this.userRepo.findOneBy({ name: body.name });
     if (!login) {
@@ -33,6 +36,18 @@ export class AuthService {
     } else {
       throw new UnauthorizedException('wrong credentials');
     }
+  }
+  async register(createUserDto) {
+    try {
+      const saltRounds = 10;
+      const salt = await bcrypt.genSalt(saltRounds);
+      const {password} = createUserDto;
+      const hashedPassword = await bcrypt.hash(password, salt);
+      createUserDto.password = hashedPassword;
+    } catch (error) {
+      throw error;
+    }
+    return this.userRepo.insert(createUserDto);
   }
   async validateUser(name: string, password: string): Promise<any> {
     const user = await this.userRepo.findOneBy({name});

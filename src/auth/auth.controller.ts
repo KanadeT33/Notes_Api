@@ -21,6 +21,17 @@ import { AuthService } from './auth.service';
     signIn(@Body() Body:any) {
       return this.authService.login(Body);
     }
+    @Public()
+    @Get()
+    users() {
+      return this.authService.all();
+    }
+    @Public()
+    @Post('register')
+    register(@Body() Body:any) {
+      return this.authService.register(Body);
+    }
+  
     @UseGuards(AuthGuard)
     @Get('profile')
     getProfile(@Request() req) {
